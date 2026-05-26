@@ -177,6 +177,35 @@ async function getAudio() {
   return state.audio;
 }
 
+async function playCountdownBlip(index) {
+  const c = await getAudio();
+  const t = c.currentTime;
+  const baseFreq = [392, 523.25, 659.25][index] || 523.25;
+  const gain = c.createGain();
+  const filter = c.createBiquadFilter();
+  const voices = [1, 2.01];
+
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(index === 2 ? 0.18 : 0.12, t + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + (index === 2 ? 0.18 : 0.12));
+
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(index === 2 ? 2600 : 1800, t);
+  filter.Q.value = 0.5;
+  gain.connect(filter);
+  filter.connect(c.destination);
+
+  voices.forEach((multiple, voiceIndex) => {
+    const osc = c.createOscillator();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(baseFreq * multiple, t);
+    osc.detune.setValueAtTime(voiceIndex ? -4 : 0, t);
+    osc.connect(gain);
+    osc.start(t);
+    osc.stop(t + 0.22);
+  });
+}
+
 function stopTone(fast = false) {
   if (!state.voices) return;
   const c = state.audio;
@@ -297,10 +326,11 @@ async function runCountdown() {
   setPhase("countdown");
   setVisible(el.countdown);
   stopTone(true);
-  for (const word of COUNTDOWN) {
+  for (const [index, word] of COUNTDOWN.entries()) {
     el.countdownWord.textContent = word;
     el.countdownWord.style.opacity = "1";
     el.countdownWord.style.transform = "translateY(0)";
+    playCountdownBlip(index);
     await wait(760);
     el.countdownWord.style.opacity = "0";
     el.countdownWord.style.transform = "translateY(14px)";
