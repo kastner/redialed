@@ -2,6 +2,7 @@ const ROUNDS = 5;
 const MEMORIZE_MS = 2500;
 const OCTAVE_CENTS = 1200;
 const BASE_FREQ = 261.6255653005986;
+const PLAYBACK_OCTAVE_OFFSET = 0;
 const COUNTDOWN = ["ready", "set", "go"];
 const NOTE_HIT_CENTS = 100;
 const TUNING_RINGS = {
@@ -231,7 +232,7 @@ async function playTone(cents, volume = 0.26) {
   const c = await getAudio();
   stopTone(true);
   const t = c.currentTime;
-  const freq = centsToFrequency(cents, -1);
+  const freq = centsToFrequency(cents, PLAYBACK_OCTAVE_OFFSET);
   const master = c.createGain();
   const lowpass = c.createBiquadFilter();
   const vibrato = c.createOscillator();
@@ -285,7 +286,7 @@ async function playTone(cents, volume = 0.26) {
 function updateTone(cents) {
   if (!state.voices || !state.audio) return;
   const t = state.audio.currentTime;
-  const freq = centsToFrequency(cents, -1);
+  const freq = centsToFrequency(cents, PLAYBACK_OCTAVE_OFFSET);
   state.voices.forEach((voice) => {
     if (voice.multiple) voice.osc.frequency.setTargetAtTime(freq * voice.multiple, t, 0.018);
   });

@@ -14,6 +14,7 @@ Open `index.html` in a browser and press Start. Each round plays one tone, then 
 - The curve currently awards up to `10` points per tone with a `55` cent falloff.
 - A result is visually marked as a note hit when it lands within `100` cents of the target pitch class.
 - Result feedback uses tuning rings: bull's-eye around `5` cents, inner ring around `10`, and outer ring around `25`, with a slightly wider allowance for flat misses.
+- Playback currently uses `PLAYBACK_OCTAVE_OFFSET = 0` in `app.js` so phone speakers play the pitch class around C4 instead of the lower C3 octave. To roll this back, change that constant to `-1`.
 
 ## To Do
 
