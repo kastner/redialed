@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Redialed</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="app" class="screen intro active">
+      <canvas id="backWave" class="wave back" aria-hidden="true"></canvas>
+      <canvas id="frontWave" class="wave front" aria-hidden="true"></canvas>
+
+      <nav class="topbar" aria-label="Game">
+        <span id="roundLabel">Redialed</span>
+        <span class="brand">cents</span>
+      </nav>
+
+      <section id="introPanel" class="intro-copy">
+        <h1>sound</h1>
+        <p>Hear one tone. Recreate its pitch class in cents. Octaves do not matter.</p>
+        <div class="intro-actions">
+          <button id="startButton" class="round-button" type="button" aria-label="Play solo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 5.5v13l10-6.5-10-6.5Z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section id="countdownPanel" class="center-panel" hidden>
+        <p id="countdownWord">ready</p>
+      </section>
+
+      <section id="playPanel" class="play-panel" hidden>
+        <div id="timer" class="timer">
+          <span id="timerInt">2</span><span>.</span><span id="timerDec">50</span>
+          <small>seconds to remember</small>
+        </div>
+        <div id="centsReadout" class="cents-readout" aria-live="polite">
+          <span id="centsValue">000</span><span>c</span>
+        </div>
+        <button id="submitButton" class="round-button submit" type="button" aria-label="Submit tone" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13.5 5.75 19.75 12l-6.25 6.25M19 12H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </section>
+
+      <section id="resultPanel" class="result-panel" hidden>
+        <div>
+          <p class="result-label">score</p>
+          <p id="roundScore" class="round-score">0.00</p>
+          <div id="verdict" class="verdict" aria-live="polite">
+            <strong id="verdictTitle">Hit</strong>
+            <span id="verdictText">You found the pitch class.</span>
+          </div>
+        </div>
+        <div class="result-grid">
+          <div>
+            <span>target</span>
+            <strong id="targetCents">000c</strong>
+          </div>
+          <div>
+            <span>you</span>
+            <strong id="pickedCents">000c</strong>
+          </div>
+          <div>
+            <span>offset</span>
+            <strong id="missCents">000c</strong>
+          </div>
+        </div>
+        <button id="nextButton" class="text-button" type="button">Next round</button>
+      </section>
+
+      <section id="finalPanel" class="final-panel" hidden>
+        <p class="result-label">total</p>
+        <p id="totalScore" class="total-score">0.00/50</p>
+        <ol id="roundList" class="round-list"></ol>
+        <button id="againButton" class="text-button" type="button">Play again</button>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

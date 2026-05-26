@@ -1,0 +1,385 @@
+:root {
+  color-scheme: dark;
+  --white: #fff;
+  --muted: rgba(255, 255, 255, 0.48);
+  --faint: rgba(255, 255, 255, 0.18);
+  --black: #000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--black);
+  color: var(--white);
+  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Segoe UI", sans-serif;
+  touch-action: none;
+  user-select: none;
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wave.back {
+  filter: blur(18px);
+  opacity: 0.95;
+}
+
+.wave.front {
+  opacity: 0.95;
+}
+
+.topbar {
+  position: absolute;
+  z-index: 5;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--white);
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+.brand {
+  opacity: 0.55;
+}
+
+.intro-copy {
+  position: absolute;
+  z-index: 4;
+  left: 30px;
+  right: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+.intro-copy h1 {
+  margin: 0 0 18px;
+  font-size: min(23vw, 104px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.intro-copy p {
+  max-width: 360px;
+  margin: 0 0 42px;
+  color: #adadad;
+  font-size: 22px;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.intro-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.round-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: var(--white);
+  color: var(--black);
+  transition: transform 140ms ease, opacity 160ms ease;
+}
+
+.round-button svg {
+  width: 30px;
+  height: 30px;
+}
+
+.round-button:active {
+  transform: scale(0.94);
+}
+
+.center-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+}
+
+.center-panel p {
+  margin: 0;
+  font-size: clamp(66px, 18vw, 148px);
+  line-height: 1;
+  letter-spacing: -0.07em;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.play-panel,
+.result-panel,
+.final-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.timer {
+  position: absolute;
+  left: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  font-size: clamp(64px, 18vw, 118px);
+  line-height: 0.85;
+  letter-spacing: -0.07em;
+}
+
+.timer small {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.cents-readout {
+  position: absolute;
+  left: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  opacity: 0;
+  font-size: clamp(78px, 22vw, 142px);
+  line-height: 0.82;
+  letter-spacing: -0.07em;
+  transition: opacity 300ms ease;
+}
+
+.cents-readout span:last-child {
+  margin-left: 8px;
+  font-size: 0.28em;
+  letter-spacing: -0.04em;
+}
+
+.tuning .timer {
+  opacity: 0;
+}
+
+.tuning .cents-readout {
+  opacity: 1;
+}
+
+.submit {
+  position: absolute;
+  right: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+.result-panel,
+.final-panel {
+  display: grid;
+  align-content: end;
+  gap: 28px;
+  padding: 30px 30px calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+.result-label {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.round-score,
+.total-score {
+  margin: 0;
+  font-size: clamp(78px, 23vw, 144px);
+  line-height: 0.84;
+  letter-spacing: -0.075em;
+}
+
+.round-score.perfect,
+.round-score.hit {
+  color: #76ffd0;
+  text-shadow: 0 0 34px rgba(88, 242, 181, 0.28);
+}
+
+.round-score.near {
+  color: #ffe47a;
+  text-shadow: 0 0 30px rgba(255, 228, 122, 0.22);
+}
+
+.round-score.miss {
+  color: #ffb18d;
+}
+
+.round-score.rough {
+  color: #ff7085;
+}
+
+.verdict {
+  max-width: 620px;
+  margin-top: 20px;
+  padding-left: 16px;
+  border-left: 3px solid var(--faint);
+}
+
+.verdict strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: clamp(26px, 6vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.verdict span {
+  display: block;
+  max-width: 520px;
+  color: var(--muted);
+  font-size: clamp(16px, 3vw, 22px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.verdict.perfect,
+.verdict.hit {
+  border-color: #58f2b5;
+}
+
+.verdict.perfect strong,
+.verdict.hit strong {
+  color: #76ffd0;
+}
+
+.verdict.near {
+  border-color: #ffe47a;
+}
+
+.verdict.near strong {
+  color: #ffe47a;
+}
+
+.verdict.miss {
+  border-color: #ff9b6d;
+}
+
+.verdict.miss strong {
+  color: #ffb18d;
+}
+
+.verdict.rough {
+  border-color: #ff5f77;
+}
+
+.verdict.rough strong {
+  color: #ff7085;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 560px;
+}
+
+.result-grid div,
+.round-list li {
+  min-height: 76px;
+  padding: 14px;
+  border: 1px solid var(--faint);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.result-grid span,
+.round-list span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.result-grid strong,
+.round-list strong {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.result-grid strong.flat {
+  color: #75bfff;
+}
+
+.result-grid strong.sharp {
+  color: #ff9b6d;
+}
+
+.result-grid strong.center {
+  color: #76ffd0;
+}
+
+.text-button {
+  justify-self: start;
+  min-height: 56px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--black);
+}
+
+.round-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  max-width: 780px;
+}
+
+@media (min-width: 800px) {
+  .intro-copy {
+    bottom: 52px;
+  }
+
+  .intro-copy p {
+    margin-bottom: 52px;
+  }
+}
+
+@media (max-width: 640px) {
+  .result-grid,
+  .round-list {
+    grid-template-columns: 1fr;
+  }
+
+  .result-panel,
+  .final-panel {
+    overflow-y: auto;
+  }
+}
